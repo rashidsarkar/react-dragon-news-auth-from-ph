@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../Shared/Navbar/Navbar";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -6,6 +6,12 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 function Login() {
   const { loginUser } = useContext(AuthContext);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log(navigate);
+
+  console.log(location);
   const handleLogin = (event) => {
     event.preventDefault();
 
@@ -17,6 +23,8 @@ function Login() {
     loginUser(email, password)
       .then((user) => {
         console.log(user.user);
+        // navigate after login
+        navigate(location?.state || "/");
       })
       .catch((error) => {
         console.log(error.message);
